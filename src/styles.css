@@ -62,26 +62,39 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --radius: 0.875rem;
+  /* DF Ecoturismo — paleta dunas dos Lençóis, pôr do sol laranja e vermelho */
+  --background: oklch(0.985 0.012 75);              /* areia clara */
+  --foreground: oklch(0.22 0.06 35);                /* marrom profundo */
+  --card: oklch(0.99 0.008 75 / 0.92);
+  --card-foreground: oklch(0.22 0.06 35);
+  --popover: oklch(0.99 0.008 75);
+  --popover-foreground: oklch(0.22 0.06 35);
+  --primary: oklch(0.68 0.21 45);                   /* laranja duna */
+  --primary-foreground: oklch(0.99 0.01 80);
+  --secondary: oklch(0.55 0.24 27);                 /* vermelho pôr-do-sol */
+  --secondary-foreground: oklch(0.99 0.01 80);
+  --muted: oklch(0.95 0.025 70);
+  --muted-foreground: oklch(0.45 0.04 40);
+  --accent: oklch(0.78 0.13 200);                   /* turquesa lagoa */
+  --accent-foreground: oklch(0.18 0.05 240);
+  --destructive: oklch(0.55 0.24 27);
+  --destructive-foreground: oklch(0.99 0.01 80);
+  --border: oklch(0.86 0.04 60);
+  --input: oklch(0.93 0.03 70);
+  --ring: oklch(0.68 0.21 45);
+
+  --duna-sand: oklch(0.92 0.05 75);
+  --duna-ember: oklch(0.62 0.22 35);
+  --duna-crimson: oklch(0.48 0.24 22);
+  --lagoa-shallow: oklch(0.82 0.11 195);
+  --lagoa-deep: oklch(0.55 0.13 210);
+
+  --gradient-sunset: linear-gradient(135deg, oklch(0.78 0.18 65) 0%, oklch(0.62 0.23 35) 45%, oklch(0.45 0.22 18) 100%);
+  --gradient-lagoa: linear-gradient(180deg, oklch(0.88 0.09 200) 0%, oklch(0.55 0.13 210) 100%);
+  --gradient-card: linear-gradient(180deg, oklch(0.99 0.012 75 / 0.95), oklch(0.96 0.03 70 / 0.85));
+  --shadow-warm: 0 20px 60px -20px oklch(0.45 0.22 25 / 0.45);
+  --shadow-card: 0 12px 30px -12px oklch(0.35 0.18 30 / 0.35);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +153,26 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  .bg-sunset { background: var(--gradient-sunset); }
+  .bg-lagoa { background: var(--gradient-lagoa); }
+  .bg-card-warm { background: var(--gradient-card); }
+  .shadow-warm { box-shadow: var(--shadow-warm); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .text-gradient-sunset {
+    background: var(--gradient-sunset);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 }
