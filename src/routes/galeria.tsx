@@ -266,13 +266,15 @@ function GaleriaPage() {
                     className="aspect-square w-full object-cover transition group-hover:scale-105"
                   />
                 )}
-                <button
-                  onClick={() => remover(m)}
-                  aria-label="Remover"
-                  className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-background/80 text-destructive opacity-0 backdrop-blur transition group-hover:opacity-100"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
+                {isAdmin && (
+                  <button
+                    onClick={() => remover(m)}
+                    aria-label="Remover"
+                    className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-background/80 text-destructive opacity-0 backdrop-blur transition group-hover:opacity-100"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                )}
                 {m.tipo === "video" && (
                   <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-background/80 px-2 py-0.5 text-[10px] font-semibold">
                     <Film className="h-3 w-3" /> Vídeo
