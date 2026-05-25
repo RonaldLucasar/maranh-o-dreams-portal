@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Upload, Trash2, ImagePlus, Loader2, Film } from "lucide-react";
+import { Upload, Trash2, ImagePlus, Loader2, Film, LogOut, LogIn } from "lucide-react";
 import { Background } from "@/components/Background";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { PASSEIOS } from "@/lib/passeios";
+import { useAuth, signOut } from "@/lib/useAuth";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/galeria")({
   head: () => ({
@@ -34,6 +36,7 @@ type Midia = {
 const BUCKET = "passeios-midia";
 
 function GaleriaPage() {
+  const { isAdmin, user, loading: authLoading } = useAuth();
   const [midias, setMidias] = useState<Midia[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -95,6 +98,7 @@ function GaleriaPage() {
   }
 
   async function remover(m: Midia) {
+    if (!isAdmin) return;
     if (!confirm("Remover esta mídia?")) return;
     await supabase.storage.from(BUCKET).remove([m.storage_path]);
     await supabase.from("midia").delete().eq("id", m.id);
@@ -117,12 +121,43 @@ function GaleriaPage() {
             Fotos e vídeos <span className="text-gradient-sunset">dos passeios</span>
           </h1>
           <p className="mt-4 text-foreground/80">
-            Envie suas fotos e vídeos para compartilhar as melhores memórias dos
-            nossos roteiros.
+            As melhores memórias dos nossos roteiros pelos Lençóis Maranhenses.
           </p>
+          <div className="mt-4 flex items-center gap-3 text-xs">
+            {!authLoading && (
+              isAdmin ? (
+                <>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-secondary/15 px-3 py-1 font-semibold text-secondary">
+                    Modo admin ativo
+                  </span>
+                  <button
+                    onClick={signOut}
+                    className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary"
+                  >
+                    <LogOut className="h-3 w-3" /> Sair
+                  </button>
+                </>
+              ) : user ? (
+                <button
+                  onClick={signOut}
+                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary"
+                >
+                  <LogOut className="h-3 w-3" /> Sair
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary"
+                >
+                  <LogIn className="h-3 w-3" /> Acesso admin
+                </Link>
+              )
+            )}
+          </div>
         </header>
 
-        {/* Upload */}
+        {/* Upload — visível só para admin */}
+        {isAdmin && (
         <section className="mb-10 rounded-3xl border border-border/60 bg-card-warm p-6 shadow-card backdrop-blur-md">
           <div className="flex items-center gap-3">
             <div className="grid h-10 w-10 place-items-center rounded-full bg-sunset shadow-warm">
@@ -180,6 +215,7 @@ function GaleriaPage() {
             <p className="mt-3 text-sm text-destructive">{erro}</p>
           )}
         </section>
+        )}
 
         {/* Filtro */}
         <div className="mb-6 flex flex-wrap gap-2">
